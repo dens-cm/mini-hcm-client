@@ -10,15 +10,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm install
-      - run: npm run build
-        env:
-          VITE_FIREBASE_API_KEY: "AIzaSyBMG2vucOhFJyxvMDxb83wt9Cm4NpgYHBg"
-          VITE_FIREBASE_AUTH_DOMAIN: "strvn-dev.firebaseapp.com"
-          VITE_FIREBASE_PROJECT_ID: "strvn-dev"
-          VITE_FIREBASE_STORAGE_BUCKET: "strvn-dev.firebasestorage.app"
-          VITE_FIREBASE_MESSAGING_SENDER_ID: "457957259550"
-          VITE_FIREBASE_APP_ID: "1:457957259550:web:1173fbab46e09702eef10f"
-          VITE_API_URL: "https://mini-hcm-server.onrender.com"
+      - run: |
+          echo "VITE_FIREBASE_API_KEY=AIzaSyBMG2vucOhFJyxvMDxb83wt9Cm4NpgYHBg" >> .env
+          echo "VITE_FIREBASE_AUTH_DOMAIN=strvn-dev.firebaseapp.com" >> .env
+          echo "VITE_FIREBASE_PROJECT_ID=strvn-dev" >> .env
+          echo "VITE_FIREBASE_STORAGE_BUCKET=strvn-dev.firebasestorage.app" >> .env
+          echo "VITE_FIREBASE_MESSAGING_SENDER_ID=457957259550" >> .env
+          echo "VITE_FIREBASE_APP_ID=1:457957259550:web:1173fbab46e09702eef10f" >> .env
+          echo "VITE_API_URL=https://mini-hcm-server.onrender.com" >> .env
+          npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

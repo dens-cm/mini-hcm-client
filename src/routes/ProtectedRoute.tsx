@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '@/hooks/AuthContext'

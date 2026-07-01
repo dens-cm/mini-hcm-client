@@ -7,7 +7,7 @@ import { authService } from '@/utils/services/AuthService'
 import { useAuth } from '@/hooks/AuthContext'
 
 export default function Onboarding() {
-  const { userProfile, loading, refreshProfile } = useAuth()
+  const { loading, refreshProfile } = useAuth()
   const [name, setName] = useState('')
   const [timezone] = useState(() => Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC')
   const [startShift, setStartShift] = useState('09:00')

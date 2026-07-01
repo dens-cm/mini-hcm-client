@@ -4,6 +4,7 @@ import { type User, onAuthStateChanged } from 'firebase/auth'
 import { auth } from '@/utils/firebase'
 import { authService } from '@/utils/services/AuthService'
 import type { RoleType } from '@/utils/constants'
+import { Flex, Spinner } from '@chakra-ui/react'
 
 export interface UserProfile {
   name: string
@@ -35,6 +36,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const refreshProfile = async () => {
     if (auth.currentUser) {
       try {
+        setCurrentUser(auth.currentUser)
         const profile = await authService.getMyProfile()
         setUserProfile(profile.data)
       } catch (error) {
@@ -45,6 +47,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (authService.isRegistering) {
+        return
+      }
+
+      setLoading(true)
       setCurrentUser(user)
       if (user) {
         try {
@@ -52,6 +59,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setUserProfile(profile.data)
         } catch (error) {
           console.error("Error fetching user profile", error)
+          setUserProfile(null)
         }
       } else {
         setUserProfile(null)
@@ -64,7 +72,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   return (
     <AuthContext.Provider value={{ currentUser, userProfile, loading, refreshProfile }}>
-      {!loading && children}
+      {loading ? (
+        <Flex height="100vh" align="center" justify="center">
+          <Spinner size="xl" />
+        </Flex>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   )
 }

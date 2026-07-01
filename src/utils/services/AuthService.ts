@@ -9,14 +9,21 @@ import type { RoleType } from '@/utils/constants'
 type Schedule = NonNullable<UserProfile['schedule']>
 
 class AuthService extends ApiService {
+    public isRegistering = false
+
     async register(email: string, password: string, name: string, role: RoleType, timezone: string, schedule: Schedule) {
-        await createUserWithEmailAndPassword(auth, email, password)
-        const headers = await this.getHeaders()
-        const response = await axios.post(`${this.baseUrl}/users/profile`, {
-            name, email, role, timezone, schedule
-        }, { headers })
-        
-        return response.data
+        this.isRegistering = true
+        try {
+            await createUserWithEmailAndPassword(auth, email, password)
+            const headers = await this.getHeaders()
+            const response = await axios.post(`${this.baseUrl}/users/profile`, {
+                name, email, role, timezone, schedule
+            }, { headers })
+            
+            return response.data
+        } finally {
+            this.isRegistering = false
+        }
     }
 
     async updateProfile(name: string, timezone: string, schedule: Schedule) {

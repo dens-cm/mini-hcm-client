@@ -9,13 +9,13 @@ export default function Dashboard() {
     const { userProfile, loading } = useAuth()
 
     if (loading) {
-        return <Flex h="100vh" align="center" justify="center"><Spinner size="xl" /></Flex>
+        return <Flex h="100%" align="center" justify="center"><Spinner size="xl" /></Flex>
     }
 
     return (
-        <Box p={4} maxW="container.xl" mx="auto">
+        <Box w='100%' h='100%' overflow='auto'>
             <Flex direction="column" gap={6}>
-            <Box>
+            <Box px={6} py={3}>
                 <Heading size="lg" mb={4}>Welcome, {capitalizeWords(userProfile?.name || '')}</Heading>
                 {userProfile?.role === Role.ADMIN ? <AdminDashboard /> : <EmployeeDashboard />}
             </Box>

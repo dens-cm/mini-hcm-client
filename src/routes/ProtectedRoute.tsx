@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '@/hooks/AuthContext'
 import { Role } from '@/utils/constants'
 import { Spinner, Flex } from '@chakra-ui/react'
@@ -24,9 +24,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminOnly = f
     return <Navigate to="/login" replace />
   }
 
-  const { pathname } = window.location
+  const location = useLocation()
+  const pathname = location.pathname
+
   if (!userProfile && pathname !== '/onboarding') {
     return <Navigate to="/onboarding" replace />
+  }
+
+  if (userProfile && pathname === '/onboarding') {
+    return <Navigate to="/dashboard" replace />
   }
 
   if (adminOnly && userProfile?.role !== Role.ADMIN) {

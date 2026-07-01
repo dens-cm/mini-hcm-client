@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Box, Flex, Heading, Text, Input, Button, HStack } from '@chakra-ui/react'
 import { Field } from '@chakra-ui/react'
 import { toaster } from '@/components/ui/toaster'
@@ -15,12 +15,6 @@ export default function Onboarding() {
   const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (userProfile && !loading) {
-      navigate('/dashboard', { replace: true })
-    }
-  }, [userProfile, loading, navigate])
-
   const handleOnboarding = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
@@ -36,7 +30,7 @@ export default function Onboarding() {
     }
   }
 
-  if (loading || userProfile) return null 
+  if (loading) return null 
 
   return (
     <Flex height="100vh" alignItems="center" justify="center" bgGradient="linear(to-r, teal.400, blue.500)">

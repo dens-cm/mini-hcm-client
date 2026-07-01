@@ -19,7 +19,7 @@ export const EditPunchDialog = ({ punch, employeeName, editTime, setEditTime, sa
   if (!punch) return null
 
   return (
-    <Dialog.Root open={!!punch} onOpenChange={(e) => !e.open && onCancel()}>
+    <Dialog.Root open={!!punch} onOpenChange={(e) => !e.open && onCancel()} role='alertdialog'>
       <Dialog.Backdrop />
       <Dialog.Positioner>
         <Dialog.Content>

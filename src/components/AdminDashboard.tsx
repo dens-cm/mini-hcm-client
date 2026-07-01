@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Box, Flex, Heading, Text, Table, Badge, Spinner, EmptyState, Tabs, Button, IconButton, Input, SimpleGrid, HStack } from '@chakra-ui/react'
 import { toaster } from "@/components/ui/toaster"
 import { adminService } from '@/utils/services/AdminService'
-import { formatDate, formatDateTime } from '@/utils/dateFormatter'
+import { formatDate, formatDateTime, formatTime } from '@/utils/dateFormatter'
 import { capitalizeWords } from '@/utils/stringUtils'
 import { MdEdit, MdViewList, MdDateRange, MdHistory } from 'react-icons/md'
 import { FaUsers, FaBriefcase, FaBolt, FaClock, FaSync } from 'react-icons/fa'
@@ -105,7 +105,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <Box p={6}>
+    <Box>
       <Flex justify="space-between" align="center" mb={8} bg="white" p={8} borderRadius="2xl" boxShadow="sm" border="1px solid" borderColor="gray.100">
         <Box>
           <Heading size="xl" color="gray.800" fontWeight="extrabold" letterSpacing="tight">Admin Portal</Heading>
@@ -178,6 +178,8 @@ export default function AdminDashboard() {
                   <Table.Row>
                     <Table.ColumnHeader>Employee</Table.ColumnHeader>
                     <Table.ColumnHeader>Date</Table.ColumnHeader>
+                    <Table.ColumnHeader>Time In</Table.ColumnHeader>
+                    <Table.ColumnHeader>Time Out</Table.ColumnHeader>
                     <Table.ColumnHeader textAlign="right">Regular (hrs)</Table.ColumnHeader>
                     <Table.ColumnHeader textAlign="right">Overtime (hrs)</Table.ColumnHeader>
                     <Table.ColumnHeader textAlign="right">Night Diff (hrs)</Table.ColumnHeader>
@@ -190,6 +192,8 @@ export default function AdminDashboard() {
                     <Table.Row key={s.id}>
                       <Table.Cell>{capitalizeWords(usersMap[s.userId] || s.userId)}</Table.Cell>
                       <Table.Cell>{formatDate(s.date)}</Table.Cell>
+                      <Table.Cell>{s.timeIn ? formatTime(s.timeIn) : 'N/A'}</Table.Cell>
+                      <Table.Cell>{s.timeOut ? formatTime(s.timeOut) : 'N/A'}</Table.Cell>
                       <Table.Cell textAlign="right">{s.regularHours?.toFixed(2) || 0}</Table.Cell>
                       <Table.Cell textAlign="right">
                         {s.overtimeHours > 0 ? <Badge colorPalette="purple">{s.overtimeHours.toFixed(2)}</Badge> : 0}

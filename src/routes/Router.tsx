@@ -1,6 +1,6 @@
 import React from 'react'
+import { Box } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { Provider } from '@/components/ui/provider'
 import { AuthProvider } from '@/hooks/AuthContext'
 import ProtectedRoute from '@/routes/ProtectedRoute'
 import GuestRoute from '@/routes/GuestRoute'
@@ -12,7 +12,7 @@ import Dashboard from '@/pages/Dashboard'
 
 const App: React.FC = () => {
   return (
-    <Provider>
+    <Box w='100vw' h='100vh' display='flex' flexDirection='column'>
       <AuthProvider>
         <Router>
           <Navbar />
@@ -20,21 +20,21 @@ const App: React.FC = () => {
             <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
             <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} />
             <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
-            
-            <Route 
-              path="/dashboard" 
+
+            <Route
+              path="/dashboard"
               element={
                 <ProtectedRoute>
                   <Dashboard />
                 </ProtectedRoute>
-              } 
+              }
             />
-            
+
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </Router>
       </AuthProvider>
-    </Provider>
+    </Box>
   )
 }
 

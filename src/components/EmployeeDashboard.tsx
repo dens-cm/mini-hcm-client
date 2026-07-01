@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { Box, Button, Flex, Heading, Text, Table, Badge, HStack, Spinner, EmptyState, SimpleGrid } from '@chakra-ui/react'
 import { toaster } from "@/components/ui/toaster"
 import { attendanceService } from '@/utils/services/AttendanceService'
-import { formatDate } from '@/utils/dateFormatter'
-import { FaBriefcase, FaBolt, FaExclamationCircle, FaClock, FaSignInAlt, FaSignOutAlt, FaRegCalendarTimes } from 'react-icons/fa'
+import { formatDate, formatTime } from '@/utils/dateFormatter'
+import { FaBriefcase, FaBolt, FaExclamationCircle, FaClock, FaSignInAlt, FaSignOutAlt, FaRegCalendarTimes, FaSync } from 'react-icons/fa'
 
 interface DailySummary {
   id: string
@@ -13,6 +13,8 @@ interface DailySummary {
   nightDiffHours: number
   lateMinutes: number
   undertimeMinutes: number
+  timeIn?: string
+  timeOut?: string
 }
 
 export default function EmployeeDashboard() {
@@ -56,13 +58,16 @@ export default function EmployeeDashboard() {
   }
 
   return (
-    <Box p={6}>
+    <Box>
       <Flex justify="space-between" align="center" mb={8} bg="white" p={8} borderRadius="2xl" boxShadow="sm" border="1px solid" borderColor="gray.100">
         <Box>
           <Heading size="xl" color="gray.800" fontWeight="extrabold" letterSpacing="tight">Employee Portal</Heading>
           <Text color="gray.500" mt={1}>Manage your daily attendance</Text>
         </Box>
         <HStack gap={4}>
+          <Button variant="outline" size="lg" onClick={fetchSummaries} loading={loading} borderRadius="full" px={6} boxShadow="sm">
+            <FaSync /> Refresh
+          </Button>
           <Button colorPalette="teal" size="lg" onClick={() => handlePunch('in')} loading={punching} borderRadius="full" px={8} boxShadow="md">
             <FaSignInAlt /> Punch In
           </Button>
@@ -144,6 +149,8 @@ export default function EmployeeDashboard() {
             <Table.Header>
               <Table.Row>
                 <Table.ColumnHeader>Date</Table.ColumnHeader>
+                <Table.ColumnHeader>Time In</Table.ColumnHeader>
+                <Table.ColumnHeader>Time Out</Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="right">Regular (hrs)</Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="right">Overtime (hrs)</Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="right">Night Diff (hrs)</Table.ColumnHeader>
@@ -155,6 +162,8 @@ export default function EmployeeDashboard() {
               {summaries.map(s => (
                 <Table.Row key={s.id}>
                   <Table.Cell>{formatDate(s.date)}</Table.Cell>
+                  <Table.Cell>{s.timeIn ? formatTime(s.timeIn) : 'N/A'}</Table.Cell>
+                  <Table.Cell>{s.timeOut ? formatTime(s.timeOut) : 'N/A'}</Table.Cell>
                   <Table.Cell textAlign="right">{s.regularHours?.toFixed(2) || 0}</Table.Cell>
                   <Table.Cell textAlign="right">
                     {s.overtimeHours > 0 ? <Badge colorPalette="purple">{s.overtimeHours.toFixed(2)}</Badge> : 0}

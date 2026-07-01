@@ -17,3 +17,10 @@ export const formatDateTime = (dateString: string) => {
   if (isNaN(date.getTime())) return dateString
   return date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: true })
 }
+
+export const formatTime = (dateString: string) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  if (isNaN(date.getTime())) return dateString
+  return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
+}

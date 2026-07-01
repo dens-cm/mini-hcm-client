@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
   if (!currentUser) return null
 
   return (
-    <Box bg="white" px={6} py={4} color="gray.800" shadow="sm" borderBottom="1px solid" borderColor="gray.100">
+    <Box bg="white" px={6} py={3} color="gray.800" shadow="sm" borderBottom="1px solid" borderColor="gray.100" zIndex='5'>
       <Flex alignItems="center">
         <HStack cursor="pointer" onClick={() => navigate('/dashboard')} color="blue.600" _hover={{ color: "blue.500" }} transition="all 0.2s">
           <FaClock size={24} />
